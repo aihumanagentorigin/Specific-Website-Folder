@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IN THE CUT | Demo Site by ColdFire Digital</title>
+<meta name="description" content="Demo barbershop website built by ColdFire Digital LLC." />
+<style>
+  :root {
+    --bg: #1c1a18;
+    --bg-alt: #262220;
+    --cream: #f4ede2;
+    --red: #b3392c;
+    --red-light: #d4523f;
+    --gold: #c9a227;
+    --text-muted: #b9afa2;
+    --radius: 8px;
+    --max-width: 1080px;
+    --font: Georgia, 'Times New Roman', serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: #2a2420;
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+
+  /* Barber pole stripe accent bar */
+  .pole-stripe {
+    height: 6px;
+    width: 100%;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--red) 0 20px,
+      var(--cream) 20px 40px,
+      #2c4f8c 40px 60px
+    );
+  }
+
+  header {
+    background: var(--bg);
+    color: var(--cream);
+    padding: 18px 0;
+    position: sticky;
+    top: 6px;
+    z-index: 10;
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-family: var(--font);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .logo span { color: var(--gold); }
+  nav { display: flex; gap: 24px; align-items: center; }
+  nav a { font-size: 14px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  nav a:hover { color: var(--cream); }
+  .btn {
+    display: inline-block;
+    padding: 12px 26px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-primary {
+    background: linear-gradient(90deg, var(--red), var(--red-light));
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(179, 57, 44, 0.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(179, 57, 44, 0.4); }
+
+  @media (max-width: 680px) {
+    nav a:not(.btn) { display: none; }
+  }
+
+  .hours-bar-phone a { color: inherit; text-decoration: none; }
+  .hours-bar-phone a:hover { text-decoration: underline; }
+
+  /* Hours / schedule bar — sits right under the header */
+  .hours-bar {
+    background: var(--gold);
+    color: #1c1a18;
+  }
+  .hours-bar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 8px 24px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .hours-bar-location {
+    opacity: 0.85;
+  }
+  @media (max-width: 600px) {
+    .hours-bar-inner { justify-content: center; text-align: center; }
+    .hours-bar-location { display: none; }
+  }
+
+  /* Hero */
+  .hero {
+    background: var(--bg);
+    color: var(--cream);
+    padding: 72px 0 88px;
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .hero-copy { text-align: left; }
+  .hero-media img {
+    width: 100%; height: auto; display: block;
+    border-radius: 14px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+  }
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 34px; }
+    .hero-copy { text-align: center; }
+    .hero-copy p { margin-left: auto; margin-right: auto; }
+    .hero-copy .hero-actions { justify-content: center; }
+    .hero-media { max-width: 520px; margin: 0 auto; }
+  }
+  .hero .eyebrow {
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 0 0 14px;
+  }
+  .hero h1 {
+    font-family: var(--font);
+    font-size: clamp(32px, 5vw, 54px);
+    margin: 0 0 18px;
+    line-height: 1.15;
+  }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 18px;
+    max-width: 520px;
+    margin: 0 0 32px;
+  }
+  .hero-actions { display: flex; gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
+  .btn-outline {
+    border: 2px solid var(--cream);
+    color: var(--cream);
+    background: transparent;
+  }
+  .btn-outline:hover { background: var(--cream); color: var(--bg); }
+
+  /* Sections */
+  .section { padding: 72px 0; }
+  .section-alt { background: var(--bg-alt); color: var(--cream); }
+  .section-title {
+    font-family: var(--font);
+    font-size: clamp(26px, 3.5vw, 34px);
+    text-align: center;
+    margin: 0 0 10px;
+  }
+  .section-subhead {
+    text-align: center;
+    color: var(--text-muted);
+    max-width: 500px;
+    margin: 0 auto 44px;
+    font-size: 16px;
+  }
+  .section-alt .section-subhead { color: rgba(244,237,226,0.65); }
+
+  /* Scrolling services band */
+  .services-marquee {
+    overflow: hidden;
+    background: var(--gold);
+    border-top: 1px solid rgba(28,26,24,0.25);
+    border-bottom: 1px solid rgba(28,26,24,0.25);
+    cursor: grab;
+    touch-action: pan-y;
+  }
+  .services-marquee.is-dragging { cursor: grabbing; }
+  .services-marquee-track { user-select: none; -webkit-user-select: none; }
+  .services-marquee-track {
+    display: inline-flex;
+    animation: services-marquee-scroll 26s linear infinite;
+  }
+  .services-marquee:hover .services-marquee-track { animation-play-state: paused; }
+  .services-marquee-item {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    font-family: var(--font);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #000;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.35);
+    padding: 15px 0;
+  }
+  .services-marquee-item .sep {
+    margin: 0 26px;
+    font-size: 11px;
+    color: rgba(28,26,24,0.55);
+  }
+  @keyframes services-marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .services-marquee-track { animation: none; }
+  }
+
+  /* Services grid */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 780px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .services-grid { grid-template-columns: 1fr; } }
+
+  .service-card {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 26px 22px;
+    border: 1px solid #e6ddce;
+  }
+  .service-card h3 { margin: 0 0 6px; font-size: 18px; font-family: var(--font); }
+  .service-card .price { color: var(--red); font-weight: 700; font-size: 15px; margin-bottom: 8px; }
+  .service-card p { margin: 0; color: #6b6156; font-size: 14px; }
+
+  /* Why us */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    text-align: center;
+  }
+  @media (max-width: 780px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
+  .why-item .icon { font-size: 28px; margin-bottom: 10px; color: var(--gold); }
+  .why-item h3 { font-size: 16px; margin: 0 0 6px; }
+  .why-item p { margin: 0; font-size: 14px; color: rgba(244,237,226,0.65); }
+
+  /* Testimonials */
+  .reviews-media { margin: 40px auto 0; max-width: 760px; }
+  .reviews-media img {
+    width: 100%; height: auto; display: block;
+    border-radius: 14px;
+    box-shadow: 0 18px 44px rgba(0,0,0,0.28);
+  }
+
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 780px) { .testimonial-grid { grid-template-columns: 1fr; } }
+  .testimonial {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 22px;
+    border: 1px solid #e6ddce;
+    font-style: italic;
+    font-size: 15px;
+    color: #4a4136;
+  }
+  .testimonial .stars { color: var(--gold); margin-bottom: 10px; font-style: normal; }
+  .testimonial .author { margin-top: 12px; font-style: normal; font-weight: 700; font-size: 13px; color: #2a2420; }
+
+  /* CTA / contact */
+  .cta {
+    background: var(--bg);
+    color: var(--cream);
+    text-align: center;
+    padding: 72px 0;
+  }
+  .cta h2 { font-family: var(--font); font-size: clamp(26px, 3.5vw, 34px); margin: 0 0 14px; }
+  .cta p { color: var(--text-muted); margin: 0 0 30px; }
+  .hours-strip {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin-top: 36px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  footer {
+    background: #14120f;
+    color: rgba(244,237,226,0.55);
+    text-align: center;
+    padding: 22px 0;
+    font-size: 13px;
+  }
+  footer .badge {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: rgba(244,237,226,0.35);
+  }
+</style>
+</head>
+<body>
+
+  <div class="pole-stripe"></div>
+  <header>
+    <div class="container header-inner">
+      <div class="logo">IN <span>THE CUT</span></div>
+      <nav>
+        <a href="#services">Services</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Hours &amp; Location</a>
+        <a href="#contact" class="btn btn-primary">Book Now</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hours-bar">
+    <div class="container hours-bar-inner">
+      <span><strong>Hours:</strong> Mon&ndash;Tue: 8am&ndash;8pm &middot; Wed: 10am&ndash;8pm &middot; Thu&ndash;Sat: 8am&ndash;8pm &middot; Sun: 8am&ndash;4pm</span>
+      <span class="hours-bar-phone"><strong>Call:</strong> <a href="tel:+13036356217">(303) 635-6217</a></span>
+      <span class="hours-bar-location">101 W 84th Ave #100, Thornton, CO 80260</span>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">Thornton &middot; Walk-Ins Welcome</p>
+        <h1>Sharp Cuts. Sharper Lines.</h1>
+        <p>Classic barbering with a modern edge. Skin fades, beard sculpting, and hot towel
+          shaves from barbers who take their time and get it right.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Book Your Cut</a>
+          <a href="#services" class="btn btn-outline">See Services &amp; Pricing</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="../../assets/barber_shop_demo_website_pictures/barber_hero_shop_floor.png"
+             alt="Barber shaping a client's haircut with scissors and comb on a busy shop floor">
+      </div>
+    </div>
+  </section>
+
+  <section class="scrollcinema" id="sc-barber-reel" style="--sc-accent:#c9a227; --sc-bg:#1c1a18; --sc-text:#d4af37; --sc-muted:#d4af37;">
+    <div class="scrollcinema-spacer" id="sc-barber-reel-spacer" style="height:2547px;">
+      <div class="scrollcinema-stage" id="sc-barber-reel-stage">
+        <div class="scrollcinema-progress-track">
+          <div class="scrollcinema-progress-fill" id="sc-barber-reel-progress"></div>
+        </div>
+        <canvas class="scrollcinema-canvas" id="sc-barber-reel-canvas"></canvas>
+        <div class="scrollcinema-panels" id="sc-barber-reel-panels">
+          <div class="scrollcinema-panel" data-index="0"><h3>Every Fade, Perfected</h3><p>Scroll to watch the craft in motion.</p></div>
+          <div class="scrollcinema-panel" data-index="1"><h3>Precision in Every Pass</h3><p>From first line to final finish.</p></div>
+          <div class="scrollcinema-panel" data-index="2"><h3>Ready When You Walk In</h3><p>Book your seat in the chair.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    #sc-barber-reel.scrollcinema { position: relative; background: var(--sc-bg); }
+    #sc-barber-reel .scrollcinema-stage {
+      position: sticky; top: 0; height: 100vh; width: 100%;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; background: var(--sc-bg);
+    }
+    #sc-barber-reel .scrollcinema-canvas {
+      max-width: 100%; max-height: 100%; display: block;
+      border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+    #sc-barber-reel .scrollcinema-progress-track {
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: rgba(255,255,255,0.12); z-index: 5;
+    }
+    #sc-barber-reel .scrollcinema-progress-fill {
+      height: 100%; width: 0%; background: var(--sc-accent);
+      transition: width 0.05s linear;
+    }
+    #sc-barber-reel .scrollcinema-panels {
+      position: absolute; inset: 0; pointer-events: none;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #sc-barber-reel .scrollcinema-panel {
+      position: absolute; max-width: 480px; text-align: center;
+      padding: 0 24px; opacity: 0; transform: translateY(16px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      color: var(--sc-text);
+    }
+    #sc-barber-reel .scrollcinema-panel.is-visible { opacity: 1; transform: translateY(0); }
+    #sc-barber-reel .scrollcinema-panel h3 {
+      font-size: clamp(24px, 4vw, 38px); margin: 0 0 10px; font-weight: 700;
+      font-family: Georgia, 'Times New Roman', serif;
+      color: var(--sc-text);
+      -webkit-text-stroke: 4px #000;
+      paint-order: stroke fill;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.75), 0 0 18px rgba(0,0,0,0.55);
+    }
+    #sc-barber-reel .scrollcinema-panel p {
+      font-size: 16px; margin: 0; color: var(--sc-muted); font-weight: 700;
+      -webkit-text-stroke: 2px #000;
+      paint-order: stroke fill;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.7), 0 0 14px rgba(0,0,0,0.5);
+    }
+    @media (max-width: 640px) {
+      #sc-barber-reel .scrollcinema-panel { max-width: 320px; }
+      #sc-barber-reel .scrollcinema-canvas { border-radius: 8px; }
+    }
+  </style>
+
+  <script>
+  (function() {
+    var id = "barber-reel";
+    var frameCount = 64;
+    var framesDir = "../../assets/barber_frames";
+    var spacer = document.getElementById("sc-" + id + "-spacer");
+    var canvas = document.getElementById("sc-" + id + "-canvas");
+    var progressFill = document.getElementById("sc-" + id + "-progress");
+    var scStage = document.getElementById("sc-" + id + "-stage");
+    var panels = Array.prototype.slice.call(
+      document.querySelectorAll("#sc-" + id + "-panels .scrollcinema-panel")
+    );
+    var sectionData = [{"at": 0.15, "heading": "Every Fade, Perfected", "body": "Scroll to watch the craft in motion."}, {"at": 0.5, "heading": "Precision in Every Pass", "body": "From first line to final finish."}, {"at": 0.85, "heading": "Ready When You Walk In", "body": "Book your seat in the chair."}];
+    var ctx = canvas.getContext("2d");
+    var images = new Array(frameCount);
+    var currentFrame = -1;
+    var ticking = false;
+
+    function pad4(n) { var s = "" + n; while (s.length < 4) s = "0" + s; return s; }
+
+    function drawFrame(index) {
+      var img = images[index];
+      if (!img || !img.complete || img.naturalWidth === 0) return;
+      if (canvas.width !== img.naturalWidth || canvas.height !== img.naturalHeight) {
+        canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
+      }
+      ctx.drawImage(img, 0, 0);
+    }
+
+    function smoothWindow(progress, at, halfWidth) {
+      var d = Math.abs(progress - at);
+      if (d >= halfWidth) return 0;
+      var t = 1 - d / halfWidth;
+      return t * t * (3 - 2 * t);
+    }
+
+    function updatePanels(progress) {
+      for (var i = 0; i < panels.length; i++) {
+        var at = sectionData[i] ? sectionData[i].at : 0.5;
+        var visible = smoothWindow(progress, at, 0.18) > 0.35;
+        panels[i].classList.toggle("is-visible", visible);
+      }
+    }
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function() {
+        var rect = spacer.getBoundingClientRect();
+        var stageH = scStage ? scStage.offsetHeight : window.innerHeight;
+        var stickyTop = scStage ? (parseFloat(getComputedStyle(scStage).top) || 0) : 0;
+        var total = rect.height - stageH;
+        var scrolled = stickyTop - rect.top;
+        var progress = total > 0 ? scrolled / total : 0;
+        progress = Math.max(0, Math.min(1, progress));
+        var frameIndex = Math.round(progress * (frameCount - 1));
+        frameIndex = Math.max(0, Math.min(frameCount - 1, frameIndex));
+        if (frameIndex !== currentFrame) { currentFrame = frameIndex; drawFrame(currentFrame); }
+        progressFill.style.width = (progress * 100).toFixed(1) + "%";
+        updatePanels(progress);
+        ticking = false;
+      });
+    }
+
+    for (var i = 0; i < frameCount; i++) {
+      (function(idx) {
+        var img = new Image();
+        img.onload = function() { if (idx === 0) drawFrame(0); };
+        img.src = framesDir + "/frame_" + pad4(idx + 1) + ".jpg";
+        images[idx] = img;
+      })(i);
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    onScroll();
+  })();
+  </script>
+
+  <div class="services-marquee" aria-hidden="true">
+    <div class="services-marquee-track">
+      <span class="services-marquee-item">Classic Haircuts<span class="sep">&#10022;</span></span><span class="services-marquee-item">Skin Fades<span class="sep">&#10022;</span></span><span class="services-marquee-item">Beard Trims &amp; Shaping<span class="sep">&#10022;</span></span><span class="services-marquee-item">Hot Towel Shaves<span class="sep">&#10022;</span></span><span class="services-marquee-item">Kids Cuts<span class="sep">&#10022;</span></span><span class="services-marquee-item">Cut + Beard Combos<span class="sep">&#10022;</span></span><span class="services-marquee-item">Classic Haircuts<span class="sep">&#10022;</span></span><span class="services-marquee-item">Skin Fades<span class="sep">&#10022;</span></span><span class="services-marquee-item">Beard Trims &amp; Shaping<span class="sep">&#10022;</span></span><span class="services-marquee-item">Hot Towel Shaves<span class="sep">&#10022;</span></span><span class="services-marquee-item">Kids Cuts<span class="sep">&#10022;</span></span><span class="services-marquee-item">Cut + Beard Combos<span class="sep">&#10022;</span></span>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    var bar = document.querySelector(".services-marquee");
+    var track = document.querySelector(".services-marquee-track");
+    if (!bar || !track) return;
+
+    var DURATION = 26; // seconds for one full loop, matches the original pacing
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var setWidth = 0;
+    var speed = 0; // px per second
+    var offset = 0; // current translateX in px, always in (-setWidth, 0]
+    var dragging = false;
+    var hovering = false;
+    var startX = 0;
+    var startOffset = 0;
+    var lastTime = null;
+
+    // The auto-scroll is driven entirely from here with real pixel values,
+    // rather than a CSS % keyframe animation, so the loop point is always
+    // mathematically exact regardless of how a given browser lays out the
+    // duplicated content.
+    track.style.animation = "none";
+
+    function measure() {
+      setWidth = track.scrollWidth / 2;
+      speed = setWidth / DURATION;
+    }
+    measure();
+    window.addEventListener("resize", measure);
+
+    function wrap(px) {
+      if (!setWidth) return 0;
+      var m = px % setWidth;
+      if (m > 0) m -= setWidth;
+      return m;
+    }
+
+    function render() {
+      track.style.transform = "translateX(" + offset + "px)";
+    }
+
+    function tick(now) {
+      if (lastTime === null) lastTime = now;
+      var dt = now - lastTime;
+      lastTime = now;
+      if (!dragging && !hovering && !reduceMotion) {
+        offset = wrap(offset - (speed * dt) / 1000);
+        render();
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    bar.addEventListener("mouseenter", function () {
+      hovering = true;
+    });
+
+    bar.addEventListener("mousedown", function (e) {
+      dragging = true;
+      startX = e.clientX;
+      startOffset = offset;
+      bar.classList.add("is-dragging");
+      e.preventDefault();
+    });
+
+    window.addEventListener("mousemove", function (e) {
+      if (!dragging) return;
+      offset = wrap(startOffset + (e.clientX - startX));
+      render();
+    });
+
+    window.addEventListener("mouseup", function () {
+      if (!dragging) return;
+      dragging = false;
+      bar.classList.remove("is-dragging");
+    });
+
+    bar.addEventListener("mouseleave", function () {
+      hovering = false;
+    });
+
+    bar.addEventListener("wheel", function (e) {
+      var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      offset = wrap(offset - delta);
+      render();
+      e.preventDefault();
+    }, { passive: false });
+
+    bar.addEventListener("touchstart", function (e) {
+      dragging = true;
+      startX = e.touches[0].clientX;
+      startOffset = offset;
+    }, { passive: true });
+
+    bar.addEventListener("touchmove", function (e) {
+      if (!dragging) return;
+      offset = wrap(startOffset + (e.touches[0].clientX - startX));
+      render();
+      e.preventDefault();
+    }, { passive: false });
+
+    bar.addEventListener("touchend", function () {
+      dragging = false;
+    });
+  })();
+  </script>
+
+  <section id="services" class="section">
+    <div class="container">
+      <h2 class="section-title">Services &amp; Pricing</h2>
+      <p class="section-subhead">No surprises, no upsells — just straightforward pricing for every cut.</p>
+      <div class="services-grid">
+        <div class="service-card">
+          <h3>Classic Haircut</h3>
+          <div class="price">$XX</div>
+          <p>Scissor or clipper cut, styled and finished.</p>
+        </div>
+        <div class="service-card">
+          <h3>Skin Fade</h3>
+          <div class="price">$XX</div>
+          <p>Precision fade, blended clean from skin to top.</p>
+        </div>
+        <div class="service-card">
+          <h3>Beard Trim &amp; Shape</h3>
+          <div class="price">$XX</div>
+          <p>Line-up, shape, and hot towel finish.</p>
+        </div>
+        <div class="service-card">
+          <h3>Hot Towel Shave</h3>
+          <div class="price">$XX</div>
+          <p>Traditional straight-razor shave, start to finish.</p>
+        </div>
+        <div class="service-card">
+          <h3>Kids Cut (12 &amp; Under)</h3>
+          <div class="price">$XX</div>
+          <p>Patient, quick, and painless — we promise.</p>
+        </div>
+        <div class="service-card">
+          <h3>Cut + Beard Combo</h3>
+          <div class="price">$XX</div>
+          <p>Full haircut and beard service, done together.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Why Guys Come Back</h2>
+      <p class="section-subhead">Not our first cut — we've been doing this a long time.</p>
+      <div class="why-grid">
+        <div class="why-item">
+          <div class="icon">&#9986;</div>
+          <h3>Master Barbers</h3>
+          <p>Licensed, experienced, and detail-obsessed.</p>
+        </div>
+        <div class="why-item">
+          <div class="icon">&#9200;</div>
+          <h3>Walk-Ins Welcome</h3>
+          <p>Or book ahead online — your call.</p>
+        </div>
+        <div class="why-item">
+          <div class="icon">&#9733;</div>
+          <h3>Rated on Google</h3>
+          <p>4.7&#9733; from 296 Google reviews.</p>
+        </div>
+        <div class="why-item">
+          <div class="icon">&#127903;</div>
+          <h3>Loyalty Punch Card</h3>
+          <p>Every 6th cut is on the house.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews" class="section">
+    <div class="container">
+      <h2 class="section-title">What Clients Say</h2>
+      <p class="section-subhead">Rated 4.7&#9733; from 296 Google reviews.</p>
+      <div class="testimonial-grid">
+        <div class="testimonial">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          "Super cool dude, extremely professional and I'll definitely be going back."
+          <div class="author">&mdash; Felix Rios</div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          "Gio was the barber that hooked my son up. He did a great job."
+          <div class="author">&mdash; Anh Do</div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          "Andrew is very talented. Won't be going anywhere else."
+          <div class="author">&mdash; Ole Dimas</div>
+        </div>
+      </div>
+      <figure class="reviews-media">
+        <img src="../../assets/barber_shop_demo_website_pictures/barber_reviews_shop_floor.png"
+             alt="Busy barbershop floor with barbers cutting hair and customers waiting">
+      </figure>
+    </div>
+  </section>
+
+  <section id="contact" class="cta">
+    <div class="container">
+      <h2>Ready for a Fresh Cut?</h2>
+      <p>Book online or just walk in — we'll get you in the chair.</p>
+      <a href="#" class="btn btn-primary">Book Your Appointment</a>
+      <div class="hours-strip">
+        <span>Mon&ndash;Tue: 8am&ndash;8pm &middot; Wed: 10am&ndash;8pm &middot; Thu&ndash;Sat: 8am&ndash;8pm &middot; Sun: 8am&ndash;4pm</span>
+        <span>101 W 84th Ave #100, Thornton, CO 80260</span>
+        <span>(303) 635-6217</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>&copy; <span id="year"></span> IN THE CUT (Demo Site)</div>
+    <span class="badge">Demo website built by ColdFire Digital LLC — this is a sample, not a real business.</span>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
