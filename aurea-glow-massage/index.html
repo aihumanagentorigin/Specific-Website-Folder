@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow" />
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aurea Glow Massage | Demo Site by ColdFire Digital</title>
+<meta name="description" content="Demo massage therapy website built by ColdFire Digital LLC." />
+<style>
+  :root {
+    --bg: #f5f7f2; --sage: #7c9070; --sage-light: #a2b593; --clay: #b98a68; --charcoal: #33362f;
+    --text-muted: #6e7568; --radius: 10px; --max-width: 1080px;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: var(--font-body); background: var(--bg); color: var(--charcoal); line-height: 1.7; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+
+  header { background: #fff; padding: 18px 0; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid #e6ebe0; }
+  .header-inner { display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-size: 20px; font-weight: 700; letter-spacing: 0.01em; }
+  .logo span { color: var(--sage); }
+  nav { display: flex; gap: 24px; align-items: center; }
+  nav a { font-size: 14px; font-weight: 600; color: var(--text-muted); }
+  nav a:hover { color: var(--charcoal); }
+  .btn { display: inline-block; padding: 12px 26px; border-radius: 999px; font-weight: 700; font-size: 14px; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+  .btn-primary { background: linear-gradient(90deg, var(--sage), var(--sage-light)); color: #fff; box-shadow: 0 6px 16px rgba(124, 144, 112, 0.35); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(124, 144, 112, 0.4); }
+  .btn-outline { border: 2px solid var(--charcoal); color: var(--charcoal); background: transparent; }
+  .btn-outline:hover { background: var(--charcoal); color: #fff; }
+  @media (max-width: 680px) { nav a:not(.btn) { display: none; } }
+
+  .hours-bar { background: var(--sage); color: #fff; }
+  .hours-bar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 8px 24px; font-size: 13px; font-weight: 600; }
+  .hours-bar-location { opacity: 0.85; }
+  .hours-bar-phone a { color: inherit; text-decoration: none; }
+  .hours-bar-phone a:hover { text-decoration: underline; }
+  @media (max-width: 600px) { .hours-bar-inner { justify-content: center; text-align: center; } .hours-bar-location { display: none; } }
+
+  .hero { padding: 76px 0 92px; }
+  .hero-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+  .hero-copy { text-align: left; }
+  .hero .eyebrow { color: var(--clay); font-weight: 700; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; margin: 0 0 14px; }
+  .hero h1 { font-size: clamp(30px, 5vw, 48px); margin: 0 0 18px; line-height: 1.25; }
+  .hero p { color: var(--text-muted); font-size: 18px; max-width: 540px; margin: 0 0 32px; }
+  .hero-actions { display: flex; gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
+  .hero-media img {
+    width: 100%; height: auto; max-height: 520px; object-fit: cover; object-position: center;
+    display: block; border-radius: 16px; box-shadow: 0 22px 52px rgba(60,45,35,0.18);
+  }
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 34px; }
+    .hero-copy { text-align: center; }
+    .hero-copy p { margin-left: auto; margin-right: auto; }
+    .hero-copy .hero-actions { justify-content: center; }
+    .hero-media { max-width: 440px; margin: 0 auto; }
+  }
+
+  .section { padding: 76px 0; }
+  .section-alt { background: #eaeee3; }
+  .section-title { font-size: clamp(26px, 3.5vw, 34px); text-align: center; margin: 0 0 10px; }
+  .section-subhead { text-align: center; color: var(--text-muted); max-width: 520px; margin: 0 auto 44px; font-size: 16px; }
+
+  /* Scrolling services band */
+  .services-marquee {
+    overflow: hidden;
+    background: linear-gradient(90deg, var(--sage), var(--sage-light));
+    cursor: grab;
+    touch-action: pan-y;
+  }
+  .services-marquee.is-dragging { cursor: grabbing; }
+  .services-marquee-track {
+    display: inline-flex;
+    animation: services-marquee-scroll 26s linear infinite;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .services-marquee:hover .services-marquee-track { animation-play-state: paused; }
+  .services-marquee-item {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 14px 0;
+  }
+  .services-marquee-item .sep {
+    margin: 0 26px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+  }
+  @keyframes services-marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .services-marquee-track { animation: none; }
+  }
+
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 780px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .services-grid { grid-template-columns: 1fr; } }
+  .service-card { background: #fff; border-radius: var(--radius); padding: 26px 22px; border: 1px solid #e6ebe0; }
+  .service-card h3 { margin: 0 0 6px; font-size: 18px; }
+  .service-card .price { color: var(--sage); font-weight: 700; font-size: 15px; margin-bottom: 8px; }
+  .service-card p { margin: 0; color: var(--text-muted); font-size: 14px; }
+
+  .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center; }
+  @media (max-width: 780px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
+  .why-item .icon { font-size: 28px; margin-bottom: 10px; color: var(--clay); }
+  .why-item h3 { font-size: 16px; margin: 0 0 6px; }
+  .why-item p { margin: 0; font-size: 14px; color: var(--text-muted); }
+
+  .reviews-media { margin: 40px auto 0; max-width: 520px; }
+  .reviews-media img {
+    width: 100%; height: auto; max-height: 580px; object-fit: cover; object-position: center;
+    display: block; border-radius: 16px; box-shadow: 0 18px 44px rgba(60,45,35,0.16);
+  }
+
+  .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 780px) { .testimonial-grid { grid-template-columns: 1fr; } }
+  .testimonial { background: #fff; border-radius: var(--radius); padding: 22px; border: 1px solid #e6ebe0; font-style: italic; font-size: 15px; color: #40453a; }
+  .testimonial .stars { color: var(--clay); margin-bottom: 10px; font-style: normal; }
+  .testimonial .author { margin-top: 12px; font-style: normal; font-weight: 700; font-size: 13px; color: var(--charcoal); }
+
+  .cta { background: var(--charcoal); color: #fff; text-align: center; padding: 76px 0; }
+  .cta h2 { font-size: clamp(26px, 3.5vw, 34px); margin: 0 0 14px; }
+  .cta p { color: rgba(255,255,255,0.7); margin: 0 0 30px; }
+  .hours-strip { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-top: 36px; font-size: 14px; color: rgba(255,255,255,0.7); }
+
+  footer { background: #262920; color: rgba(255,255,255,0.5); text-align: center; padding: 22px 0; font-size: 13px; }
+  footer .badge { display: block; margin-top: 6px; font-size: 12px; color: rgba(255,255,255,0.32); }
+</style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo">AUREA <span>GLOW MASSAGE</span></div>
+      <nav>
+        <a href="#services">Services</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Contact</a>
+        <a href="#contact" class="btn btn-primary">Book a Session</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hours-bar">
+    <div class="container hours-bar-inner">
+      <span><strong>Hours:</strong> Open Daily: 9am&ndash;9:30pm</span>
+      <span class="hours-bar-phone"><strong>Call:</strong> <a href="tel:+13039604190">(303) 960-4190</a></span>
+      <span class="hours-bar-location">3655 E 104th Ave # C, Thornton, CO 80233</span>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">Massage Therapy &middot; Thornton, Colorado</p>
+        <h1>Space to Breathe, Time to Heal.</h1>
+        <p>Therapeutic and relaxation massage tailored to what your body actually needs —
+          not a one-size-fits-all routine.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Book Your Session</a>
+          <a href="#services" class="btn btn-outline">See Services &amp; Pricing</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="/assets/massage_demo_website_pictures/massage_hero_treatment_room.png"
+             alt="Massage therapist working with a client in a warm sunlit treatment room">
+      </div>
+    </div>
+  </section>
+
+<section class="scrollcinema" id="sc-massage-stones" style="--sc-accent:#7c9070; --sc-bg:#eaeee3; --sc-text:#ffffff; --sc-muted:#ffffff;">
+  <div class="scrollcinema-spacer" id="sc-massage-stones-spacer" style="height:2464px;">
+    <div class="scrollcinema-stage" id="sc-massage-stones-stage">
+      <div class="scrollcinema-progress-track">
+        <div class="scrollcinema-progress-fill" id="sc-massage-stones-progress"></div>
+      </div>
+      <div class="sc-frame">
+        <canvas class="scrollcinema-canvas" id="sc-massage-stones-canvas"></canvas>
+        <div class="sc-scrim"></div>
+        <div class="scrollcinema-panels" id="sc-massage-stones-panels">
+        <div class="scrollcinema-panel" data-index="0"><h3>Nothing Here Is Rushed</h3><p>Sessions start on time and run their full length — no clock-watching.</p></div>
+        <div class="scrollcinema-panel" data-index="1"><h3>Built Around Your Body</h3><p>We ask where it hurts before we decide what the hour looks like.</p></div>
+        <div class="scrollcinema-panel" data-index="2"><h3>Choose Your Session</h3><p>Therapeutic, deep tissue, and relaxation — with pricing, right below.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #sc-massage-stones.scrollcinema { position: relative; background: var(--sc-bg); }
+  #sc-massage-stones .scrollcinema-stage {
+    position: sticky; top: 0; height: 100vh; width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; background: var(--sc-bg);
+  }
+  #sc-massage-stones .scrollcinema-canvas {
+    max-width: 100%; max-height: 100%; display: block;
+    border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  }
+  #sc-massage-stones .scrollcinema-progress-track {
+    position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: rgba(0,0,0,0.08); z-index: 5;
+  }
+  #sc-massage-stones .scrollcinema-progress-fill {
+    height: 100%; width: 0%; background: var(--sc-accent);
+    transition: width 0.05s linear;
+  }
+  #sc-massage-stones .scrollcinema-panels {
+    position: absolute; inset: 0; pointer-events: none;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #sc-massage-stones .scrollcinema-panel {
+    position: absolute; max-width: 480px; text-align: center;
+    padding: 0 24px; opacity: 0; transform: translateY(16px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    color: var(--sc-text);
+  }
+  #sc-massage-stones .scrollcinema-panel.is-visible { opacity: 1; transform: translateY(0); }
+  #sc-massage-stones .scrollcinema-panel h3 {
+    font-size: clamp(24px, 4vw, 38px); margin: 0 0 10px; font-weight: 700;
+  }
+  #sc-massage-stones .scrollcinema-panel p {
+    font-size: 16px; margin: 0; color: var(--sc-muted);
+  }
+  @media (max-width: 640px) {
+    #sc-massage-stones .scrollcinema-panel { max-width: 320px; }
+  }
+
+  /* --- house treatment: contained portrait frame, words inside the frame --- */
+  #sc-massage-stones .scrollcinema-stage {
+    top: var(--sc-header-h, 0px);
+    height: calc(100vh - var(--sc-header-h, 0px));
+    padding: 24px 0;
+  }
+  #sc-massage-stones .sc-frame {
+    position: relative; line-height: 0; border-radius: 14px; overflow: hidden;
+    box-shadow: 0 24px 60px rgba(51,54,47,0.24);
+    max-width: 100%;
+  }
+  #sc-massage-stones .scrollcinema-canvas {
+    display: block; width: auto; height: auto;
+    max-width: min(88vw, 520px);
+    max-height: calc(100vh - var(--sc-header-h, 0px) - 72px);
+    border-radius: 0; box-shadow: none;
+  }
+  #sc-massage-stones .sc-scrim {
+    position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(40,36,30,0) 0%, rgba(40,36,30,0) 100%),
+      linear-gradient(180deg, rgba(234,238,227,0) 0%, rgba(234,238,227,0) 100%);
+  }
+  #sc-massage-stones .scrollcinema-panels { z-index: 3; line-height: 1.6; }
+  #sc-massage-stones .scrollcinema-panel { top: 50%; bottom: auto; left: 0; right: 0; }
+  #sc-massage-stones .scrollcinema-panel {
+    max-width: 100%; text-align: center; padding: 0 28px;
+    transform: translateY(calc(-50% + 18px));
+  }
+  #sc-massage-stones .scrollcinema-panel.is-visible { transform: translateY(-50%); }
+  #sc-massage-stones .scrollcinema-panel h3 {
+    font-size: clamp(23px, 3.2vw, 34px); line-height: 1.15; letter-spacing: -0.01em;
+    color: #fff; margin: 0;
+    text-shadow: -2px -2px 0 rgba(22,19,15,0.94), -2px -1px 0 rgba(22,19,15,0.94), -2px 0px 0 rgba(22,19,15,0.94), -2px 1px 0 rgba(22,19,15,0.94), -2px 2px 0 rgba(22,19,15,0.94), -1px -2px 0 rgba(22,19,15,0.94), -1px -1px 0 rgba(22,19,15,0.94), -1px 0px 0 rgba(22,19,15,0.94), -1px 1px 0 rgba(22,19,15,0.94), -1px 2px 0 rgba(22,19,15,0.94), 0px -2px 0 rgba(22,19,15,0.94), 0px -1px 0 rgba(22,19,15,0.94), 0px 1px 0 rgba(22,19,15,0.94), 0px 2px 0 rgba(22,19,15,0.94), 1px -2px 0 rgba(22,19,15,0.94), 1px -1px 0 rgba(22,19,15,0.94), 1px 0px 0 rgba(22,19,15,0.94), 1px 1px 0 rgba(22,19,15,0.94), 1px 2px 0 rgba(22,19,15,0.94), 2px -2px 0 rgba(22,19,15,0.94), 2px -1px 0 rgba(22,19,15,0.94), 2px 0px 0 rgba(22,19,15,0.94), 2px 1px 0 rgba(22,19,15,0.94), 2px 2px 0 rgba(22,19,15,0.94), 0 2px 20px rgba(22,19,15,0.94), 0 0 34px rgba(22,19,15,0.94);
+  }
+  #sc-massage-stones .scrollcinema-panel h3::after {
+    content: ""; display: block; width: 58px; height: 3px; margin: 16px auto 14px;
+    background: linear-gradient(90deg, var(--sc-accent), #a2b593);
+  }
+  #sc-massage-stones .scrollcinema-panel p {
+    font-size: clamp(15px, 1.35vw, 17px); line-height: 1.55; margin: 0;
+    font-weight: 600;
+    color: rgba(255,255,255,0.94);
+    text-shadow: -2px -2px 0 rgba(22,19,15,0.94), -2px -1px 0 rgba(22,19,15,0.94), -2px 0px 0 rgba(22,19,15,0.94), -2px 1px 0 rgba(22,19,15,0.94), -2px 2px 0 rgba(22,19,15,0.94), -1px -2px 0 rgba(22,19,15,0.94), -1px -1px 0 rgba(22,19,15,0.94), -1px 0px 0 rgba(22,19,15,0.94), -1px 1px 0 rgba(22,19,15,0.94), -1px 2px 0 rgba(22,19,15,0.94), 0px -2px 0 rgba(22,19,15,0.94), 0px -1px 0 rgba(22,19,15,0.94), 0px 1px 0 rgba(22,19,15,0.94), 0px 2px 0 rgba(22,19,15,0.94), 1px -2px 0 rgba(22,19,15,0.94), 1px -1px 0 rgba(22,19,15,0.94), 1px 0px 0 rgba(22,19,15,0.94), 1px 1px 0 rgba(22,19,15,0.94), 1px 2px 0 rgba(22,19,15,0.94), 2px -2px 0 rgba(22,19,15,0.94), 2px -1px 0 rgba(22,19,15,0.94), 2px 0px 0 rgba(22,19,15,0.94), 2px 1px 0 rgba(22,19,15,0.94), 2px 2px 0 rgba(22,19,15,0.94), 0 2px 14px rgba(22,19,15,0.94), 0 0 24px rgba(22,19,15,0.94);
+  }
+  #sc-massage-stones .scrollcinema-progress-track { background: rgba(51,54,47,0.14); }
+  #sc-massage-stones .scrollcinema-progress-fill {
+    background: linear-gradient(90deg, var(--sc-accent), #a2b593);
+  }
+  @media (max-width: 640px) {
+    #sc-massage-stones .sc-frame { border-radius: 12px; }
+    #sc-massage-stones .scrollcinema-canvas { max-width: 92vw; }
+    #sc-massage-stones .scrollcinema-panel { padding: 0 18px; }
+    #sc-massage-stones .scrollcinema-panel h3 { font-size: clamp(21px, 6vw, 28px); }
+    #sc-massage-stones .scrollcinema-panel h3::after { margin: 13px auto 11px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #sc-massage-stones .scrollcinema-panel { transition: opacity 0.2s ease; transform: translateY(-50%) !important; }
+  }
+</style>
+
+<script>
+(function() {
+  var id = "massage-stones";
+  var frameCount = 64;
+  var framesDir = "/assets/massage_frames";
+  var root = document.getElementById("sc-" + id);
+  var spacer = document.getElementById("sc-" + id + "-spacer");
+  var canvas = document.getElementById("sc-" + id + "-canvas");
+  var stage = document.getElementById("sc-" + id + "-stage");
+  var siteHeader = document.querySelector("header");
+  var progressFill = document.getElementById("sc-" + id + "-progress");
+  var panels = Array.prototype.slice.call(
+    document.querySelectorAll("#sc-" + id + "-panels .scrollcinema-panel")
+  );
+  var PANEL_HOLD = 0.18; // half-width of each sentence's visible window (0-1 of section scroll)
+  var sectionData = [{"at": 0.15, "heading": "Nothing Here Is Rushed", "body": "Sessions start on time and run their full length \u2014 no clock-watching."}, {"at": 0.5, "heading": "Built Around Your Body", "body": "We ask where it hurts before we decide what the hour looks like."}, {"at": 0.85, "heading": "Choose Your Session", "body": "Therapeutic, deep tissue, and relaxation \u2014 with pricing, right below."}];
+  var ctx = canvas.getContext("2d");
+  var images = new Array(frameCount);
+  var loadedCount = 0;
+  var currentFrame = -1;
+  var ticking = false;
+
+  function pad4(n) {
+    var s = "" + n;
+    while (s.length < 4) s = "0" + s;
+    return s;
+  }
+
+  function drawFrame(index) {
+    var img = images[index];
+    if (!img || !img.complete || img.naturalWidth === 0) return;
+    if (canvas.width !== img.naturalWidth || canvas.height !== img.naturalHeight) {
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+    }
+    ctx.drawImage(img, 0, 0);
+  }
+
+  function smoothWindow(progress, at, halfWidth) {
+    var d = Math.abs(progress - at);
+    if (d >= halfWidth) return 0;
+    var t = 1 - d / halfWidth;
+    return t * t * (3 - 2 * t); // smoothstep
+  }
+
+  function updatePanels(progress) {
+    for (var i = 0; i < panels.length; i++) {
+      var at = sectionData[i] ? sectionData[i].at : 0.5;
+      var visible = smoothWindow(progress, at, PANEL_HOLD) > 0.35;
+      panels[i].classList.toggle("is-visible", visible);
+    }
+  }
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function() {
+      var rect = spacer.getBoundingClientRect();
+      var stageH = stage ? stage.offsetHeight : window.innerHeight;
+      var stickyTop = stage ? (parseFloat(getComputedStyle(stage).top) || 0) : 0;
+      var total = rect.height - stageH;
+      var scrolled = stickyTop - rect.top;
+      var progress = total > 0 ? scrolled / total : 0;
+      progress = Math.max(0, Math.min(1, progress));
+
+      var frameIndex = Math.round(progress * (frameCount - 1));
+      frameIndex = Math.max(0, Math.min(frameCount - 1, frameIndex));
+      if (frameIndex !== currentFrame) {
+        currentFrame = frameIndex;
+        drawFrame(currentFrame);
+      }
+      progressFill.style.width = (progress * 100).toFixed(1) + "%";
+      updatePanels(progress);
+      ticking = false;
+    });
+  }
+
+  for (var i = 0; i < frameCount; i++) {
+    (function(idx) {
+      var img = new Image();
+      img.onload = function() {
+        loadedCount++;
+        if (idx === 0) drawFrame(0);
+      };
+      img.src = framesDir + "/frame_" + pad4(idx + 1) + ".jpg";
+      images[idx] = img;
+    })(i);
+  }
+
+  function syncHeaderOffset() {
+    var h = siteHeader ? Math.round(siteHeader.getBoundingClientRect().height) : 0;
+    root.style.setProperty("--sc-header-h", h + "px");
+  }
+  syncHeaderOffset();
+  window.addEventListener("resize", syncHeaderOffset);
+  if (window.ResizeObserver && siteHeader) {
+    new ResizeObserver(function() { syncHeaderOffset(); onScroll(); }).observe(siteHeader);
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  onScroll();
+})();
+</script>
+
+  <div class="services-marquee" aria-hidden="true">
+    <div class="services-marquee-track">
+      <span class="services-marquee-item">Swedish Massage<span class="sep">&#10022;</span></span><span class="services-marquee-item">Deep Tissue Massage<span class="sep">&#10022;</span></span><span class="services-marquee-item">Sports Massage<span class="sep">&#10022;</span></span><span class="services-marquee-item">Prenatal Massage<span class="sep">&#10022;</span></span><span class="services-marquee-item">Hot Stone Massage<span class="sep">&#10022;</span></span><span class="services-marquee-item">90-Minute Sessions<span class="sep">&#10022;</span></span><span class="services-marquee-item">Swedish Massage<span class="sep">&#10022;</span></span><span class="services-marquee-item">Deep Tissue Massage<span class="sep">&#10022;</span></span><span class="services-marquee-item">Sports Massage<span class="sep">&#10022;</span></span><span class="services-marquee-item">Prenatal Massage<span class="sep">&#10022;</span></span><span class="services-marquee-item">Hot Stone Massage<span class="sep">&#10022;</span></span><span class="services-marquee-item">90-Minute Sessions<span class="sep">&#10022;</span></span>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    var bar = document.querySelector(".services-marquee");
+    var track = document.querySelector(".services-marquee-track");
+    if (!bar || !track) return;
+
+    var DURATION = 26; // seconds for one full loop, matches the original pacing
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var setWidth = 0;
+    var speed = 0; // px per second
+    var offset = 0; // current translateX in px, always in (-setWidth, 0]
+    var dragging = false;
+    var hovering = false;
+    var startX = 0;
+    var startOffset = 0;
+    var lastTime = null;
+
+    // The auto-scroll is driven entirely from here with real pixel values,
+    // rather than a CSS % keyframe animation, so the loop point is always
+    // mathematically exact regardless of how a given browser lays out the
+    // duplicated content.
+    track.style.animation = "none";
+
+    function measure() {
+      setWidth = track.scrollWidth / 2;
+      speed = setWidth / DURATION;
+    }
+    measure();
+    window.addEventListener("resize", measure);
+
+    function wrap(px) {
+      if (!setWidth) return 0;
+      var m = px % setWidth;
+      if (m > 0) m -= setWidth;
+      return m;
+    }
+
+    function render() {
+      track.style.transform = "translateX(" + offset + "px)";
+    }
+
+    function tick(now) {
+      if (lastTime === null) lastTime = now;
+      var dt = now - lastTime;
+      lastTime = now;
+      if (!dragging && !hovering && !reduceMotion) {
+        offset = wrap(offset - (speed * dt) / 1000);
+        render();
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    bar.addEventListener("mouseenter", function () {
+      hovering = true;
+    });
+
+    bar.addEventListener("mousedown", function (e) {
+      dragging = true;
+      startX = e.clientX;
+      startOffset = offset;
+      bar.classList.add("is-dragging");
+      e.preventDefault();
+    });
+
+    window.addEventListener("mousemove", function (e) {
+      if (!dragging) return;
+      offset = wrap(startOffset + (e.clientX - startX));
+      render();
+    });
+
+    window.addEventListener("mouseup", function () {
+      if (!dragging) return;
+      dragging = false;
+      bar.classList.remove("is-dragging");
+    });
+
+    bar.addEventListener("mouseleave", function () {
+      hovering = false;
+    });
+
+    bar.addEventListener("wheel", function (e) {
+      var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      offset = wrap(offset - delta);
+      render();
+      e.preventDefault();
+    }, { passive: false });
+
+    bar.addEventListener("touchstart", function (e) {
+      dragging = true;
+      startX = e.touches[0].clientX;
+      startOffset = offset;
+    }, { passive: true });
+
+    bar.addEventListener("touchmove", function (e) {
+      if (!dragging) return;
+      offset = wrap(startOffset + (e.touches[0].clientX - startX));
+      render();
+      e.preventDefault();
+    }, { passive: false });
+
+    bar.addEventListener("touchend", function () {
+      dragging = false;
+    });
+  })();
+  </script>
+
+  <section id="services" class="section">
+    <div class="container">
+      <h2 class="section-title">Services &amp; Pricing</h2>
+      <p class="section-subhead">Every session starts with a quick check-in on what you need that day.</p>
+      <div class="services-grid">
+        <div class="service-card"><h3>Swedish Massage (60 min)</h3><div class="price">Starting at $XX</div><p>Gentle, full-body relaxation.</p></div>
+        <div class="service-card"><h3>Deep Tissue Massage</h3><div class="price">Starting at $XX</div><p>Targeted relief for chronic tension.</p></div>
+        <div class="service-card"><h3>Sports Massage</h3><div class="price">Starting at $XX</div><p>Recovery-focused for active bodies.</p></div>
+        <div class="service-card"><h3>Prenatal Massage</h3><div class="price">Starting at $XX</div><p>Safe, supportive care for expecting mothers.</p></div>
+        <div class="service-card"><h3>Hot Stone Massage</h3><div class="price">Starting at $XX</div><p>Deep warmth and relaxation combined.</p></div>
+        <div class="service-card"><h3>90-Minute Session</h3><div class="price">Starting at $XX</div><p>Extended time for full-body attention.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Why Clients Return</h2>
+      <p class="section-subhead">This isn't a spa day — it's ongoing care for your body.</p>
+      <div class="why-grid">
+        <div class="why-item"><div class="icon">&#128100;</div><h3>Local &amp; Independent</h3><p>A neighborhood massage spot in Thornton.</p></div>
+        <div class="why-item"><div class="icon">&#128172;</div><h3>Personalized Sessions</h3><p>Every visit is tailored to you.</p></div>
+        <div class="why-item"><div class="icon">&#127961;</div><h3>Calm, Private Rooms</h3><p>A quiet space to actually unwind.</p></div>
+        <div class="why-item"><div class="icon">&#128197;</div><h3>Easy to Book</h3><p>Call (303) 960-4190 to set up your session.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews" class="section">
+    <div class="container">
+      <h2 class="section-title">What Clients Say</h2>
+      <p class="section-subhead">Rated 4.2&#9733; from 10 Google reviews.</p>
+      <div class="testimonial-grid">
+        <div class="testimonial">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          "I had my first massage with Jenny yesterday, and it was honestly one of the best massages I've ever had."
+          <div class="author">&mdash; Kimberley Moya</div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          "This place just opened, it is very nice and professional."
+          <div class="author">&mdash; Kaleb S.</div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          "Summer and Chloe did a wonderful job."
+          <div class="author">&mdash; Miko Rosales</div>
+        </div>
+      </div>
+      <figure class="reviews-media">
+        <img src="/assets/massage_demo_website_pictures/massage_reviews_session.png"
+             alt="Therapist working on a client's shoulders in a plant-filled treatment room">
+      </figure>
+    </div>
+  </section>
+
+  <section id="contact" class="cta">
+    <div class="container">
+      <h2>Ready to Feel Better?</h2>
+      <p>Give us a call to book your session.</p>
+      <a href="tel:+13039604190" class="btn btn-primary">Call Us Today</a>
+      <div class="hours-strip">
+        <span>Open Daily: 9am&ndash;9:30pm</span>
+        <span>3655 E 104th Ave # C, Thornton, CO 80233</span>
+        <span><a href="tel:+13039604190" style="color:inherit">(303) 960-4190</a></span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>&copy; <span id="year"></span> Aurea Glow Massage (Demo Site)</div>
+    <span class="badge">Demo website built by ColdFire Digital LLC — this is a sample template, not a real business.</span>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

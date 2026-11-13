@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow" />
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Denver Auto Repair LLC | Demo Site by ColdFire Digital</title>
+<meta name="description" content="Demo auto repair shop website built by ColdFire Digital LLC." />
+<style>
+  :root {
+    --bg: #1b1d1f;
+    --bg-alt: #24262a;
+    --steel: #eef0f2;
+    --orange: #e8621c;
+    --orange-light: #f38a4a;
+    --text-muted: #a8adb3;
+    --radius: 8px;
+    --max-width: 1080px;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: var(--font-body); background: var(--steel); color: #1f2124; line-height: 1.6; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+
+  .safety-stripe {
+    height: 6px;
+    width: 100%;
+    background: repeating-linear-gradient(45deg, var(--orange) 0 20px, #1b1d1f 20px 40px);
+  }
+
+  header { background: var(--bg); color: var(--steel); padding: 18px 0; position: sticky; top: 6px; z-index: 10; }
+  .header-inner { display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-size: 21px; font-weight: 800; letter-spacing: -0.01em; }
+  .logo span { color: var(--orange); }
+  nav { display: flex; gap: 24px; align-items: center; }
+  nav a { font-size: 14px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; }
+  nav a:hover { color: var(--steel); }
+  .btn { display: inline-block; padding: 12px 26px; border-radius: 6px; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.02em; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+  .btn-primary { background: linear-gradient(90deg, var(--orange), var(--orange-light)); color: #fff; box-shadow: 0 6px 16px rgba(232, 98, 28, 0.35); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(232, 98, 28, 0.4); }
+  .btn-outline { border: 2px solid var(--steel); color: var(--steel); background: transparent; }
+  .btn-outline:hover { background: var(--steel); color: var(--bg); }
+
+  @media (max-width: 680px) { nav a:not(.btn) { display: none; } }
+
+  .hero { background: var(--bg); color: var(--steel); padding: 72px 0 88px; }
+  .hero-inner { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: center; }
+  .hero-copy { text-align: left; }
+  .hero .eyebrow { color: var(--orange); font-weight: 700; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; margin: 0 0 14px; }
+  .hero h1 { font-size: clamp(30px, 5vw, 50px); margin: 0 0 18px; line-height: 1.15; letter-spacing: -0.01em; }
+  .hero p { color: var(--text-muted); font-size: 18px; max-width: 540px; margin: 0 0 32px; }
+  .hero-actions { display: flex; gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
+  .hero-media img {
+    width: 100%; height: auto; display: block;
+    border-radius: 14px; box-shadow: 0 22px 52px rgba(0,0,0,0.32);
+  }
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 34px; }
+    .hero-copy { text-align: center; }
+    .hero-copy p { margin-left: auto; margin-right: auto; }
+    .hero-copy .hero-actions { justify-content: center; }
+    .hero-media { max-width: 520px; margin: 0 auto; }
+  }
+
+  .section { padding: 72px 0; }
+  .section-alt { background: var(--bg-alt); color: var(--steel); }
+  .section-title { font-size: clamp(26px, 3.5vw, 34px); text-align: center; margin: 0 0 10px; letter-spacing: -0.01em; }
+  .section-subhead { text-align: center; color: #6b7075; max-width: 520px; margin: 0 auto 44px; font-size: 16px; }
+
+  /* Scrolling services band */
+  .services-marquee {
+    overflow: hidden;
+    background: linear-gradient(90deg, var(--orange), var(--orange-light));
+    cursor: grab;
+    touch-action: pan-y;
+  }
+  .services-marquee.is-dragging { cursor: grabbing; }
+  .services-marquee-track {
+    display: inline-flex;
+    animation: services-marquee-scroll 26s linear infinite;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .services-marquee:hover .services-marquee-track { animation-play-state: paused; }
+  .services-marquee-item {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 14px 0;
+  }
+  .services-marquee-item .sep {
+    margin: 0 26px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+  }
+  @keyframes services-marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .services-marquee-track { animation: none; }
+  }
+  .section-alt .section-subhead { color: rgba(238,240,242,0.65); }
+
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 780px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .services-grid { grid-template-columns: 1fr; } }
+
+  .service-card { background: #fff; border-radius: var(--radius); padding: 26px 22px; border: 1px solid #dfe2e5; }
+  .service-card h3 { margin: 0 0 6px; font-size: 18px; }
+  .service-card .price { color: var(--orange); font-weight: 700; font-size: 15px; margin-bottom: 8px; }
+  .service-card p { margin: 0; color: #6b7075; font-size: 14px; }
+
+  .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center; }
+  @media (max-width: 780px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
+  .why-item .icon { font-size: 28px; margin-bottom: 10px; color: var(--orange); }
+  .why-item h3 { font-size: 16px; margin: 0 0 6px; }
+  .why-item p { margin: 0; font-size: 14px; color: rgba(238,240,242,0.65); }
+
+  .reviews-media { margin: 40px auto 0; max-width: 760px; }
+  .reviews-media img {
+    width: 100%; height: auto; display: block;
+    border-radius: 14px; box-shadow: 0 18px 44px rgba(0,0,0,0.22);
+  }
+
+  .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 780px) { .testimonial-grid { grid-template-columns: 1fr; } }
+  .testimonial { background: #fff; border-radius: var(--radius); padding: 22px; border: 1px solid #dfe2e5; font-style: italic; font-size: 15px; color: #3a3f44; }
+  .testimonial .stars { color: var(--orange); margin-bottom: 10px; font-style: normal; }
+  .testimonial .author { margin-top: 12px; font-style: normal; font-weight: 700; font-size: 13px; color: #1f2124; }
+
+  .cta { background: var(--bg); color: var(--steel); text-align: center; padding: 72px 0; }
+  .cta h2 { font-size: clamp(26px, 3.5vw, 34px); margin: 0 0 14px; }
+  .cta p { color: var(--text-muted); margin: 0 0 30px; }
+  .hours-strip { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-top: 36px; font-size: 14px; color: var(--text-muted); }
+
+  footer { background: #131416; color: rgba(238,240,242,0.5); text-align: center; padding: 22px 0; font-size: 13px; }
+  footer .badge { display: block; margin-top: 6px; font-size: 12px; color: rgba(238,240,242,0.32); }
+
+  /* Hours / contact bar - sits right under the header */
+  .hours-bar { background: var(--orange); color: #fff; }
+  .hours-bar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 8px 24px; font-size: 13px; font-weight: 600; }
+  .hours-bar-location { opacity: 0.9; }
+  .hours-bar-phone a { color: inherit; text-decoration: none; }
+  .hours-bar-phone a:hover { text-decoration: underline; }
+  @media (max-width: 600px) { .hours-bar-inner { justify-content: center; text-align: center; } .hours-bar-location { display: none; } }
+</style>
+</head>
+<body>
+
+  <div class="safety-stripe"></div>
+  <header>
+    <div class="container header-inner">
+      <div class="logo">DENVER <span>AUTO REPAIR LLC</span></div>
+      <nav>
+        <a href="#services">Services</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Hours &amp; Location</a>
+        <a href="#contact" class="btn btn-primary">Schedule Service</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hours-bar">
+    <div class="container hours-bar-inner">
+      <span><strong>Hours:</strong> Mon&ndash;Fri: 9:30am&ndash;6pm &middot; Sat: 9:30am&ndash;3pm &middot; Sun: Closed</span>
+      <span class="hours-bar-phone"><strong>Call:</strong> <a href="tel:+17204277094">(720) 427-7094</a></span>
+      <span class="hours-bar-location">995 Federal Blvd, Denver, CO 80204</span>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">Auto Repair &middot; Denver, Colorado</p>
+        <h1>Honest Repairs. Fair Prices. Every Time.</h1>
+        <p>From oil changes to full engine diagnostics, we tell you what's actually wrong —
+          and what it actually costs — before we touch your car.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">See Hours &amp; Location</a>
+          <a href="#services" class="btn btn-outline">See Our Services</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="/assets/car_repair_demo_website_pictures/car_repair_hero_shop_bay.png"
+             alt="Technician working under the hood of a car in a bright service bay">
+      </div>
+    </div>
+  </section>
+
+<section class="scrollcinema" id="sc-redline-garage" style="--sc-accent:#e8621c; --sc-bg:#1b1d1f; --sc-text:#eef0f2; --sc-muted:#a8adb3;">
+  <div class="scrollcinema-spacer" id="sc-redline-garage-spacer" style="height:2459px;">
+    <div class="scrollcinema-stage" id="sc-redline-garage-stage">
+      <div class="scrollcinema-progress-track">
+        <div class="scrollcinema-progress-fill" id="sc-redline-garage-progress"></div>
+      </div>
+      <div class="sc-frame">
+      <canvas class="scrollcinema-canvas" id="sc-redline-garage-canvas"></canvas>
+        <div class="sc-vignette" aria-hidden="true"></div>
+      <div class="scrollcinema-panels" id="sc-redline-garage-panels">
+        <div class="scrollcinema-panel" data-index="0"><h3>No Guesswork</h3><p>Scroll to see what actually happens under the hood.</p></div>
+        <div class="scrollcinema-panel" data-index="1"><h3>You'll Know Before We Start</h3><p>What's wrong, what it costs, and what can wait.</p></div>
+        <div class="scrollcinema-panel" data-index="2"><h3>Straight Pricing, No Surprises</h3><p>Every service and rate, right below.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #sc-redline-garage.scrollcinema { position: relative; background: var(--sc-bg); }
+  #sc-redline-garage .scrollcinema-stage {
+    position: sticky; top: 0; height: 100vh; width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; background: var(--sc-bg);
+  }
+  #sc-redline-garage .scrollcinema-canvas {
+    max-width: 100%; max-height: 100%; display: block;
+    border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  }
+  #sc-redline-garage .scrollcinema-progress-track {
+    position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: rgba(0,0,0,0.08); z-index: 5;
+  }
+  #sc-redline-garage .scrollcinema-progress-fill {
+    height: 100%; width: 0%; background: var(--sc-accent);
+    transition: width 0.05s linear;
+  }
+  #sc-redline-garage .scrollcinema-panels {
+    position: absolute; inset: 0; pointer-events: none;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #sc-redline-garage .scrollcinema-panel {
+    position: absolute; max-width: 480px; text-align: center;
+    padding: 0 24px; opacity: 0; transform: translateY(16px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    color: var(--sc-text);
+  }
+  #sc-redline-garage .scrollcinema-panel.is-visible { opacity: 1; transform: translateY(0); }
+  #sc-redline-garage .scrollcinema-panel h3 {
+    font-size: clamp(24px, 4vw, 38px); margin: 0 0 10px; font-weight: 700;
+  }
+  #sc-redline-garage .scrollcinema-panel p {
+    font-size: 16px; margin: 0; color: var(--sc-muted);
+  }
+  @media (max-width: 640px) {
+    #sc-redline-garage .scrollcinema-panel { max-width: 320px; }
+  }
+
+  /* --- Redline: native square, edges dissolving into the charcoal stage --- */
+  #sc-redline-garage .sc-frame {
+    position: relative; line-height: 0; max-width: 100%;
+    border-radius: 0; box-shadow: none;
+  }
+  #sc-redline-garage .scrollcinema-canvas {
+    display: block; width: auto; height: auto;
+    max-width: min(92vw, 760px); max-height: 82vh;
+    border-radius: 0; box-shadow: none;
+  }
+  /* vignette is painted in the exact stage colour, so the frame has no visible edge */
+  #sc-redline-garage .sc-vignette {
+    position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(27,29,31,1) 0%, rgba(27,29,31,0.72) 4%,
+        rgba(27,29,31,0.22) 10%, rgba(27,29,31,0) 18%, rgba(27,29,31,0) 82%,
+        rgba(27,29,31,0.22) 90%, rgba(27,29,31,0.72) 96%, rgba(27,29,31,1) 100%),
+      linear-gradient(180deg, rgba(27,29,31,1) 0%, rgba(27,29,31,0.72) 4%,
+        rgba(27,29,31,0.22) 10%, rgba(27,29,31,0) 18%, rgba(27,29,31,0) 82%,
+        rgba(27,29,31,0.22) 90%, rgba(27,29,31,0.72) 96%, rgba(27,29,31,1) 100%),
+      linear-gradient(180deg, rgba(27,29,31,0.30) 0%, rgba(27,29,31,0.10) 22%,
+        rgba(27,29,31,0.34) 44%, rgba(27,29,31,0.30) 58%, rgba(27,29,31,0.08) 74%,
+        rgba(27,29,31,0.26) 100%);
+  }
+  #sc-redline-garage .scrollcinema-panels { z-index: 3; line-height: 1.6; }
+  #sc-redline-garage .scrollcinema-panel {
+    max-width: 100%; text-align: center; padding: 0 34px;
+    left: 0; right: 0; top: 38%; transform: translateY(18px);
+  }
+  #sc-redline-garage .scrollcinema-panel.is-visible { transform: translateY(0); }
+  #sc-redline-garage .scrollcinema-panel h3 {
+    font-size: clamp(24px, 3.5vw, 40px); line-height: 1.1; letter-spacing: -0.01em;
+    color: var(--sc-accent); margin: 0; text-transform: uppercase;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.7), 0 4px 34px rgba(0,0,0,0.8);
+  }
+  #sc-redline-garage .scrollcinema-panel h3::after {
+    content: ""; display: block; width: 68px; height: 4px; margin: 18px auto 16px;
+    background: linear-gradient(90deg, var(--sc-accent), #f38a4a);
+    box-shadow: 0 0 22px rgba(232, 98, 28, 0.55);
+  }
+  #sc-redline-garage .scrollcinema-panel p {
+    font-size: clamp(19px, 1.9vw, 24px); line-height: 1.5; margin: 0; font-weight: 700;
+    color: var(--sc-accent);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.65), 0 3px 22px rgba(0,0,0,0.7);
+  }
+  #sc-redline-garage .scrollcinema-progress-track { background: rgba(238,240,242,0.12); }
+  #sc-redline-garage .scrollcinema-progress-fill {
+    background: linear-gradient(90deg, var(--sc-accent), #f38a4a);
+  }
+  @media (max-width: 640px) {
+    #sc-redline-garage .scrollcinema-canvas { max-width: 100vw; max-height: 66vh; }
+    #sc-redline-garage .scrollcinema-panel { padding: 0 20px; top: 34%; }
+    #sc-redline-garage .scrollcinema-panel h3 { font-size: clamp(21px, 6vw, 29px); }
+    #sc-redline-garage .scrollcinema-panel h3::after { margin: 14px auto 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #sc-redline-garage .scrollcinema-panel { transition: opacity 0.2s ease; transform: none !important; }
+  }
+</style>
+
+<script>
+(function() {
+  var id = "redline-garage";
+  var frameCount = 64;
+  var framesDir = "/assets/redline_frames";
+  var root = document.getElementById("sc-" + id);
+  var spacer = document.getElementById("sc-" + id + "-spacer");
+  var canvas = document.getElementById("sc-" + id + "-canvas");
+  var progressFill = document.getElementById("sc-" + id + "-progress");
+  var scStage = document.getElementById("sc-" + id + "-stage");
+  var panels = Array.prototype.slice.call(
+    document.querySelectorAll("#sc-" + id + "-panels .scrollcinema-panel")
+  );
+  var sectionData = [{"at": 0.15, "heading": "No Guesswork", "body": "Scroll to see what actually happens under the hood."}, {"at": 0.5, "heading": "You'll Know Before We Start", "body": "What's wrong, what it costs, and what can wait."}, {"at": 0.85, "heading": "Straight Pricing, No Surprises", "body": "Every service and rate, right below."}];
+  var ctx = canvas.getContext("2d");
+  var images = new Array(frameCount);
+  var loadedCount = 0;
+  var currentFrame = -1;
+  var ticking = false;
+
+  function pad4(n) {
+    var s = "" + n;
+    while (s.length < 4) s = "0" + s;
+    return s;
+  }
+
+  function drawFrame(index) {
+    var img = images[index];
+    if (!img || !img.complete || img.naturalWidth === 0) return;
+    if (canvas.width !== img.naturalWidth || canvas.height !== img.naturalHeight) {
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+    }
+    ctx.drawImage(img, 0, 0);
+  }
+
+  function smoothWindow(progress, at, halfWidth) {
+    var d = Math.abs(progress - at);
+    if (d >= halfWidth) return 0;
+    var t = 1 - d / halfWidth;
+    return t * t * (3 - 2 * t); // smoothstep
+  }
+
+  function updatePanels(progress) {
+    for (var i = 0; i < panels.length; i++) {
+      var at = sectionData[i] ? sectionData[i].at : 0.5;
+      var visible = smoothWindow(progress, at, 0.18) > 0.35;
+      panels[i].classList.toggle("is-visible", visible);
+    }
+  }
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function() {
+      var rect = spacer.getBoundingClientRect();
+      var stageH = scStage ? scStage.offsetHeight : window.innerHeight;
+      var stickyTop = scStage ? (parseFloat(getComputedStyle(scStage).top) || 0) : 0;
+      var total = rect.height - stageH;
+      var scrolled = stickyTop - rect.top;
+      var progress = total > 0 ? scrolled / total : 0;
+      progress = Math.max(0, Math.min(1, progress));
+
+      var frameIndex = Math.round(progress * (frameCount - 1));
+      frameIndex = Math.max(0, Math.min(frameCount - 1, frameIndex));
+      if (frameIndex !== currentFrame) {
+        currentFrame = frameIndex;
+        drawFrame(currentFrame);
+      }
+      progressFill.style.width = (progress * 100).toFixed(1) + "%";
+      updatePanels(progress);
+      ticking = false;
+    });
+  }
+
+  for (var i = 0; i < frameCount; i++) {
+    (function(idx) {
+      var img = new Image();
+      img.onload = function() {
+        loadedCount++;
+        if (idx === 0) drawFrame(0);
+      };
+      img.src = framesDir + "/frame_" + pad4(idx + 1) + ".jpg";
+      images[idx] = img;
+    })(i);
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  onScroll();
+})();
+</script>
+<script>
+(function() {
+  var stage = document.getElementById("sc-redline-garage-stage");
+  var header = document.querySelector("header");
+  if (!stage) return;
+  function fit() {
+    var offset = 0;
+    if (header) {
+      var stickyTop = parseFloat(window.getComputedStyle(header).top);
+      if (!isFinite(stickyTop)) stickyTop = 0;
+      offset = stickyTop + header.offsetHeight;
+    }
+    stage.style.top = offset + "px";
+    stage.style.height = "calc(100vh - " + offset + "px)";
+  }
+  fit();
+  window.addEventListener("resize", fit);
+  window.addEventListener("load", fit);
+})();
+</script>
+
+  <div class="services-marquee" aria-hidden="true">
+    <div class="services-marquee-track">
+      <span class="services-marquee-item">Oil Changes<span class="sep">&#10022;</span></span><span class="services-marquee-item">Brake Repair<span class="sep">&#10022;</span></span><span class="services-marquee-item">Check Engine Diagnostics<span class="sep">&#10022;</span></span><span class="services-marquee-item">Tire Rotation &amp; Alignment<span class="sep">&#10022;</span></span><span class="services-marquee-item">Transmission Service<span class="sep">&#10022;</span></span><span class="services-marquee-item">A/C Repair &amp; Recharge<span class="sep">&#10022;</span></span><span class="services-marquee-item">Oil Changes<span class="sep">&#10022;</span></span><span class="services-marquee-item">Brake Repair<span class="sep">&#10022;</span></span><span class="services-marquee-item">Check Engine Diagnostics<span class="sep">&#10022;</span></span><span class="services-marquee-item">Tire Rotation &amp; Alignment<span class="sep">&#10022;</span></span><span class="services-marquee-item">Transmission Service<span class="sep">&#10022;</span></span><span class="services-marquee-item">A/C Repair &amp; Recharge<span class="sep">&#10022;</span></span>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    var bar = document.querySelector(".services-marquee");
+    var track = document.querySelector(".services-marquee-track");
+    if (!bar || !track) return;
+
+    var DURATION = 26; // seconds for one full loop, matches the original pacing
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var setWidth = 0;
+    var speed = 0; // px per second
+    var offset = 0; // current translateX in px, always in (-setWidth, 0]
+    var dragging = false;
+    var hovering = false;
+    var startX = 0;
+    var startOffset = 0;
+    var lastTime = null;
+
+    // The auto-scroll is driven entirely from here with real pixel values,
+    // rather than a CSS % keyframe animation, so the loop point is always
+    // mathematically exact regardless of how a given browser lays out the
+    // duplicated content.
+    track.style.animation = "none";
+
+    function measure() {
+      setWidth = track.scrollWidth / 2;
+      speed = setWidth / DURATION;
+    }
+    measure();
+    window.addEventListener("resize", measure);
+
+    function wrap(px) {
+      if (!setWidth) return 0;
+      var m = px % setWidth;
+      if (m > 0) m -= setWidth;
+      return m;
+    }
+
+    function render() {
+      track.style.transform = "translateX(" + offset + "px)";
+    }
+
+    function tick(now) {
+      if (lastTime === null) lastTime = now;
+      var dt = now - lastTime;
+      lastTime = now;
+      if (!dragging && !hovering && !reduceMotion) {
+        offset = wrap(offset - (speed * dt) / 1000);
+        render();
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    bar.addEventListener("mouseenter", function () {
+      hovering = true;
+    });
+
+    bar.addEventListener("mousedown", function (e) {
+      dragging = true;
+      startX = e.clientX;
+      startOffset = offset;
+      bar.classList.add("is-dragging");
+      e.preventDefault();
+    });
+
+    window.addEventListener("mousemove", function (e) {
+      if (!dragging) return;
+      offset = wrap(startOffset + (e.clientX - startX));
+      render();
+    });
+
+    window.addEventListener("mouseup", function () {
+      if (!dragging) return;
+      dragging = false;
+      bar.classList.remove("is-dragging");
+    });
+
+    bar.addEventListener("mouseleave", function () {
+      hovering = false;
+    });
+
+    bar.addEventListener("wheel", function (e) {
+      var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      offset = wrap(offset - delta);
+      render();
+      e.preventDefault();
+    }, { passive: false });
+
+    bar.addEventListener("touchstart", function (e) {
+      dragging = true;
+      startX = e.touches[0].clientX;
+      startOffset = offset;
+    }, { passive: true });
+
+    bar.addEventListener("touchmove", function (e) {
+      if (!dragging) return;
+      offset = wrap(startOffset + (e.touches[0].clientX - startX));
+      render();
+      e.preventDefault();
+    }, { passive: false });
+
+    bar.addEventListener("touchend", function () {
+      dragging = false;
+    });
+  })();
+  </script>
+
+  <section id="services" class="section">
+    <div class="container">
+      <h2 class="section-title">Services &amp; Pricing</h2>
+      <p class="section-subhead">Transparent, upfront pricing — no surprise fees at pickup.</p>
+      <div class="services-grid">
+        <div class="service-card">
+          <h3>Oil Change</h3>
+          <div class="price">Starting at $XX</div>
+          <p>Full synthetic or conventional, filter included.</p>
+        </div>
+        <div class="service-card">
+          <h3>Brake Repair</h3>
+          <div class="price">Starting at $XX</div>
+          <p>Pads, rotors, and full brake system inspection.</p>
+        </div>
+        <div class="service-card">
+          <h3>Check Engine Diagnostics</h3>
+          <div class="price">$XX</div>
+          <p>Full computer scan with a clear, written explanation.</p>
+        </div>
+        <div class="service-card">
+          <h3>Tire Rotation &amp; Alignment</h3>
+          <div class="price">Starting at $XX</div>
+          <p>Even wear, better mileage, safer handling.</p>
+        </div>
+        <div class="service-card">
+          <h3>Transmission Service</h3>
+          <div class="price">Starting at $XX</div>
+          <p>Fluid service and full inspection.</p>
+        </div>
+        <div class="service-card">
+          <h3>A/C Repair &amp; Recharge</h3>
+          <div class="price">Starting at $XX</div>
+          <p>Stay cool through the summer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Why Drivers Trust Us</h2>
+      <p class="section-subhead">We fix cars like we'd want our own family's car fixed.</p>
+      <div class="why-grid">
+        <div class="why-item">
+          <div class="icon">&#128295;</div>
+          <h3>Experienced Mechanics</h3>
+          <p>Hands-on know-how for everyday repairs and bigger jobs.</p>
+        </div>
+        <div class="why-item">
+          <div class="icon">&#128203;</div>
+          <h3>Clear Estimates</h3>
+          <p>Know the cost before we start.</p>
+        </div>
+        <div class="why-item">
+          <div class="icon">&#9200;</div>
+          <h3>Honest Answers</h3>
+          <p>We explain what's wrong in plain English.</p>
+        </div>
+        <div class="why-item">
+          <div class="icon">&#128737;</div>
+          <h3>Rated by Real Drivers</h3>
+          <p>See what local customers say on Google, below.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews" class="section">
+    <div class="container">
+      <h2 class="section-title">What Drivers Say</h2>
+      <p class="section-subhead">Rated 4.8&#9733; from 40 Google reviews.</p>
+      <div class="testimonial-grid">
+        <div class="testimonial">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          "Been going there for years! Trustworthy and honest."
+          <div class="author">&mdash; Mike Murray</div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          "Great customer service!"
+          <div class="author">&mdash; Victor</div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          "They are extremely reliable, honest, and trustworthy."
+          <div class="author">&mdash; Heidi Villalobos</div>
+        </div>
+      </div>
+      <figure class="reviews-media">
+        <img src="/assets/car_repair_demo_website_pictures/car_repair_reviews_mechanic.png"
+             alt="Smiling technician working on an engine in the shop's service bay">
+      </figure>
+    </div>
+  </section>
+
+  <section id="contact" class="cta">
+    <div class="container">
+      <h2>Something Sound Off With Your Car?</h2>
+      <p>Call or stop by for an estimate — no pressure.</p>
+      <a href="tel:+17204277094" class="btn btn-primary">Call to Schedule</a>
+      <div class="hours-strip">
+        <span>Mon&ndash;Fri: 9:30am&ndash;6pm &middot; Sat: 9:30am&ndash;3pm &middot; Sun: Closed</span>
+        <span>995 Federal Blvd, Denver, CO 80204</span>
+        <span>(720) 427-7094</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>&copy; <span id="year"></span> Denver Auto Repair LLC (Demo Site)</div>
+    <span class="badge">Demo website built by ColdFire Digital LLC — this is a sample template, not a real business.</span>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
